@@ -3,7 +3,6 @@ const asyncHandler = require("express-async-handler");
 const Color = require("../models/colorModel");
 
 const createColor = asyncHandler(async (req, res) => {
-  // Get the color and availability from the request body
   const { name, code, image, availability, productId } = req.body;
 
   // Find or create the Color object

@@ -10,11 +10,11 @@ const colorSchema = new mongoose.Schema(
     },
     image: {
       type: String,
-      required: true,
+      required: false,
     },
     availability: {
       type: Number,
-      required: true,
+      required: false,
     },
   },
   { timestamps: true }

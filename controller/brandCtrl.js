@@ -5,7 +5,6 @@ const asyncHandler = require("express-async-handler");
 
 // Function to create a new brand for a product
 const createBrand = asyncHandler(async (req, res) => {
-  // Get the color and availability from the request body
   const { title, model, quantity, productId } = req.body;
 
   // Find or create the Color object
