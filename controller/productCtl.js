@@ -85,6 +85,7 @@ const getaProduct = asyncHandler(async (req, res) => {
   const findProduct = await Product.findById(id)
     .populate("ratings.postedby")
     .populate("category")
+    .populate("brand")
     .populate("colors");
   res.status(200).json(findProduct);
 });
