@@ -13,7 +13,12 @@ const createBrand = asyncHandler(async (req, res) => {
   if (!brand) {
     brand = await Brand.create({ title, model, quantity });
   } else {
-    return res.status(409).json({ message: "brand model already exists" });
+    res
+      .status(409)
+      .json({
+        message:
+          "brand model already exists, but am pushing brand provided to your product",
+      });
   }
 
   // Update

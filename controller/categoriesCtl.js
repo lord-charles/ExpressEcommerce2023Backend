@@ -10,9 +10,17 @@ const postCategory = asyncHandler(async (req, res) => {
   // Find or create the category object
   let category = await Category.findOne({ title });
   if (!category) {
-    category = await Category.create({ title, title2, icon, quantity });
+    category = await Category.create({
+      title,
+      title2,
+      icon,
+      quantity,
+    });
   } else {
-    return res.status(409).json({ message: "category already exists" });
+    res.status(409).json({
+      message:
+        "category already exists but am pushing category to your product",
+    });
   }
 
   // Update the product with the new category

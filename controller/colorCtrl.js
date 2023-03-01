@@ -11,7 +11,12 @@ const createColor = asyncHandler(async (req, res) => {
   if (!color) {
     color = await Color.create({ name, code, image, availability });
   } else {
-    return res.status(409).json({ message: "Color already exists" });
+    res
+      .status(409)
+      .json({
+        message:
+          "Color already exists, but am pushing provided color to your product",
+      });
   }
 
   // Update the product with the new color and availability
