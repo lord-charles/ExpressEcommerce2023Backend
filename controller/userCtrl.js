@@ -380,7 +380,7 @@ const getOrders = asyncHandler(async (req, res) => {
 const getAllOrders = asyncHandler(async (req, res) => {
   const alluserorders = await Order.find()
     .populate("products.product")
-    .populate("orderby")
+    .populate("orderBy")
     .exec();
   res.json(alluserorders);
 });
