@@ -1,14 +1,18 @@
 const Coupon = require("../models/couponModel");
 const validateMongoDbId = require("../utils/validateMongodbId");
 
-const createCoupon = async (req, res, next) => {
-  try {
-    const newCoupon = await Coupon.create(req.body);
-    res.sendStatus(200);
-  } catch (error) {
-    next(error);
+const asyncHandler = require("express-async-handler");
+
+const createCoupon = asyncHandler(async (req, res) => {
+  const { name, expiry, discount } = req.body;
+  const existingCoupon = await Coupon.findOne({ name }); // check if coupon with given name already exists
+  if (existingCoupon) {
+    res.status(400).send("Coupon with the same name already exists.");
+  } else {
+    const coupon = await Coupon.create({ name, expiry, discount }); // create a new coupon
+    res.status(200).json(coupon);
   }
-};
+});
 
 const getAllCoupons = async (req, res, next) => {
   try {
