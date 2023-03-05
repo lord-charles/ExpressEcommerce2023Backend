@@ -10,7 +10,7 @@ const createCoupon = asyncHandler(async (req, res) => {
     res.status(400).send("Coupon with the same name already exists.");
   } else {
     const coupon = await Coupon.create({ name, expiry, discount }); // create a new coupon
-    res.status(200).json(coupon);
+    res.status(200).json({ coupon, message: "coupon added successfully" });
   }
 });
 
