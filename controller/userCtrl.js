@@ -62,11 +62,36 @@ const logIn = asyncHandler(async (req, res) => {
 
 //get users
 const getUsers = asyncHandler(async (req, res) => {
-  const users = await User.find().select("-passwordHash");
-  if (!users) {
-    res.status(500).json({
-      success: false,
-    });
+  const { sort } = req.query;
+  const sortOptions = {};
+
+  if (
+    sort &&
+    [
+      "firstname",
+      "lastname",
+      "email",
+      "mobile",
+      "dateJoined",
+      "isAdmin",
+      "isBlocked",
+    ].includes(sort)
+  ) {
+    sortOptions[sort] = 1;
+  } else {
+    sortOptions["dateJoined"] = -1;
+  }
+
+  let users = await User.find({}, "-__v -passwordHash -wishlist -cart")
+    .sort(sortOptions)
+    .lean();
+
+  if (sort === "isAdmin") {
+    users = users.filter((user) => user[sort]); // filter based on sort field
+  }
+
+  if (sort === "isBlocked") {
+    users = users.filter((user) => user[sort]); // filter based on sort field
   }
   res.status(200).json(users);
 });
