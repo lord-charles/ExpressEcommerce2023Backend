@@ -117,15 +117,13 @@ const getUserByEmail = asyncHandler(async (req, res) => {
 
   const results = await User.find({
     email: { $regex: new RegExp(`^${search.toLowerCase()}`, "i") },
-  }).select("email");
+  }).select("email _id");
 
   if (results.length === 0) {
     return res.status(404).json({ message: "No results found." });
   }
 
-  const emails = results.map((result) => result.email);
-
-  res.status(200).json(emails);
+  res.status(200).json(results);
 });
 
 //update user
