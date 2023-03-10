@@ -107,6 +107,27 @@ const getUserById = asyncHandler(async (req, res) => {
   res.status(200).json(user);
 });
 
+//get users by id
+const getUserByEmail = asyncHandler(async (req, res) => {
+  const { search } = req.query;
+
+  if (!search) {
+    return res.status(400).json({ message: "Search parameter is missing." });
+  }
+
+  const results = await User.find({
+    email: { $regex: new RegExp(`^${search.toLowerCase()}`, "i") },
+  }).select("email");
+
+  if (results.length === 0) {
+    return res.status(404).json({ message: "No results found." });
+  }
+
+  const emails = results.map((result) => result.email);
+
+  res.status(200).json(emails);
+});
+
 //update user
 const updateUser = asyncHandler(async (req, res) => {
   const { id } = req.params;
@@ -494,6 +515,7 @@ module.exports = {
   logIn,
   getUsers,
   getUserById,
+  getUserByEmail,
   deleteUser,
   getUserCount,
   updateUser,
