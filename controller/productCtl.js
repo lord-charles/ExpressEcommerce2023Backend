@@ -69,7 +69,7 @@ const updateProduct = asyncHandler(async (req, res) => {
   const updateProduct = await Product.findOneAndUpdate({ id }, req.body, {
     new: true,
   });
-  res.status(200).json(updateProduct);
+  res.status(200).json({ updateProduct, message: "success" });
 });
 
 const deleteProduct = asyncHandler(async (req, res) => {
