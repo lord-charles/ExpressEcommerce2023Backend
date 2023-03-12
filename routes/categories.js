@@ -8,7 +8,7 @@ const {
 } = require("../controller/categoriesCtl");
 const { authMiddleware, isAdmin } = require("../middlewares/authMiddleware");
 
-router.get("/get/:id", getCategories);
+router.get("/", getCategories);
 router.get("/:id", getCategoryById);
 router.post("/", authMiddleware, isAdmin, postCategory);
 router.put("/:id", authMiddleware, isAdmin, updateCategory);

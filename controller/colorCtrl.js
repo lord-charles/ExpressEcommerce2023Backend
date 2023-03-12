@@ -11,12 +11,10 @@ const createColor = asyncHandler(async (req, res) => {
   if (!color) {
     color = await Color.create({ name, code, image, availability });
   } else {
-    res
-      .status(409)
-      .json({
-        message:
-          "Color already exists, but am pushing provided color to your product",
-      });
+    res.status(409).json({
+      message:
+        "Color already exists, but am pushing provided color to your product",
+    });
   }
 
   // Update the product with the new color and availability
@@ -93,23 +91,21 @@ const deleteColor = asyncHandler(async (req, res) => {
 // Get all products colors
 const getColors = asyncHandler(async (req, res) => {
   // Find all brands for the specified product
-  const color = await Product.findById(req.params.id)
-    .populate("colors")
-    .select("colors");
+  const color = await Color.find().select("-__v");
   if (!color) {
     return res.status(404).json({ message: "no colors founds" });
   }
   // Return the list of color
-  res.status(200).json({ color });
+  res.status(200).json({ color, message: "success" });
 });
 
 // Get a single product by ID
 const getSingleColor = asyncHandler(async (req, res) => {
-  const color = await Color.findById(req.params.id);
+  const color = await Color.findById(req.params.id).select("-__v");
   if (!color) {
     res.status(404).json({ message: "color not found" });
   }
-  res.json(color);
+  res.status(200).json({ color, message: "success" });
 });
 
 module.exports = {

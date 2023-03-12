@@ -93,23 +93,21 @@ const deleteCategory = asyncHandler(async (req, res) => {
 // Get all products categories
 const getCategories = asyncHandler(async (req, res) => {
   // Find all categories for the specified product
-  const categories = await Product.findById(req.params.id)
-    .populate("category")
-    .select("category");
+  const categories = await Category.find().select("-__v");
   if (!categories) {
     return res.status(404).json({ message: "no categories founds" });
   }
   // Return the list of category
-  res.status(200).json({ categories });
+  res.status(200).json({ categories, message: "success" });
 });
 
 // Get a single category for specific product by ID
 const getCategoryById = asyncHandler(async (req, res) => {
-  const category = await Category.findById(req.params.id);
+  const category = await Category.findById(req.params.id).select("-__v");
   if (!category) {
     res.status(404).json({ message: "category not found" });
   }
-  res.json(category);
+  res.status(200).json({ category, message: "success" });
 });
 
 module.exports = {

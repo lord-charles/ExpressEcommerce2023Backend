@@ -13,12 +13,10 @@ const createBrand = asyncHandler(async (req, res) => {
   if (!brand) {
     brand = await Brand.create({ title, model, quantity });
   } else {
-    res
-      .status(409)
-      .json({
-        message:
-          "brand model already exists, but am pushing brand provided to your product",
-      });
+    res.status(409).json({
+      message:
+        "brand model already exists, but am pushing brand provided to your product",
+    });
   }
 
   // Update
@@ -49,26 +47,24 @@ const createBrand = asyncHandler(async (req, res) => {
 //get a brand by Id
 const getBrand = asyncHandler(async (req, res) => {
   // Find the brand by ID
-  const brand = await Brand.findById(req.params.id);
+  const brand = await Brand.findById(req.params.id).select("-__v");
   // Return an error if the brand doesn't exist
   if (!brand) {
     return res.status(404).json({ message: "Brand not found" });
   }
   // Return the brand
-  res.status(200).json({ brand });
+  res.status(200).json({ brand, message: "success" });
 });
 
 // Function to get all brands for a product
 const getAllBrands = asyncHandler(async (req, res) => {
   // Find all brands for the specified product
-  const brands = await Product.findById(req.params.id)
-    .populate("brand")
-    .select("brand");
+  const brands = await Brand.find().select("-__v");
   if (!brands) {
     return res.status(404).json({ message: "no brand founds" });
   }
   // Return the list of brands
-  res.status(200).json({ brands });
+  res.status(200).json({ brands, message: "success" });
 });
 
 // Function to update a brand by ID
