@@ -64,11 +64,12 @@ const updateProduct = asyncHandler(async (req, res) => {
   const { id } = req.params;
   validateMongodbId(id);
   if (req.body.title) {
-    req.body.slug = slugify(req.body.title);
+    req.body.slug = slugify(`${req.body.title}${Date.now()}`);
   }
-  const updateProduct = await Product.findOneAndUpdate({ id }, req.body, {
+  const updateProduct = await Product.findByIdAndUpdate(id, req.body, {
     new: true,
   });
+  await updateProduct.save();
   res.status(200).json({ updateProduct, message: "success" });
 });
 
