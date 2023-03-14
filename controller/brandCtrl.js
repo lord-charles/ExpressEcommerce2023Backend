@@ -93,7 +93,10 @@ const deleteBrand = asyncHandler(async (req, res) => {
   const product = await Product.findOne({ brand: brandId });
 
   if (!product) {
-    return res.status(404).json({ message: "Product not found" });
+    return (
+      res.status(404).json({ message: "Product not found" }),
+      await Brand.findByIdAndDelete(brandId) // Delete the brand itself
+    );
   }
 
   // Remove the brand from the product's brand array
